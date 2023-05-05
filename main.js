@@ -30,8 +30,34 @@ function gotPoses (results){
         leftWristX=results[0].pose.leftWrist.x;
         leftWristY=results[0].pose.leftWrist.y;
         console.log("leftWristX = " + leftWristX +" leftWristY = "+ leftWristY);
+        scoreRightWrist= results[0].pose.keypoints[10].score;
+        scoreLeftWrist= results[0].pose.keypoints[9].score;
+        console.log("scoreRightWrist = " + scoreRightWrist +" scoreLeftWrist = "+ scoreLeftWrist);
     }
 }
     function draw(){
         image(video, 0, 0, 600, 500);
+        fill("#008c8c");
+        stroke("#008c8c");
+        song_status= song.isPlaying();
+        song2_status= song2.isPlaying();
+        if(scoreRightWrist>0.2){
+            circle(rightWristX,rightWristY,20);
+            song2.stop();
+            if(song_status==false){
+                song.play();
+            }
+        }
+        if(scoreLeftWrist>0.2){
+            circle(leftWristX,leftWristY,20);
+            song.stop();
+            if(song2_status==false){
+                song2.play();
+            }
+        }
     }
+function play(){
+    song.play();
+    song.setVolume(1);
+    song.rate(1);
+}
